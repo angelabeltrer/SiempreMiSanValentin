@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Épica San Valentín</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle at center, #140014, #000 80%);
+    font-family: 'Georgia', serif;
+    perspective:2000px;
+    overflow:hidden;
+}
+
+/* CÁMARA */
+.scene{
+    width:400px;
+    height:270px;
+    position:relative;
+    transition: transform 2s ease;
+}
+
+/* ZOOM cinematográfico */
+.scene.zoom{
+    transform: scale(1.4);
+}
+
+/* SOBRE */
+.envelope{
+    width:100%;
+    height:100%;
+    position:absolute;
+    transform-style: preserve-3d;
+    transition: transform 1.8s ease;
+    cursor:pointer;
+}
+
+.base{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: linear-gradient(145deg,#2b2b2b,#111);
+    border-radius:14px;
+    box-shadow:0 40px 80px rgba(0,0,0,0.9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#ff4da6;
+    font-size:22px;
+    text-shadow:0 0 15px rgba(255,77,166,0.7);
+    letter-spacing:1px;
+}
+
+.flap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: linear-gradient(145deg,#ff0055,#990033);
+    clip-path: polygon(0 0,100% 0,50% 65%);
+    transform-origin: top;
+    transition: transform 1.8s ease;
+    border-radius:14px 14px 0 0;
+}
+
+/* CARTA */
+.letter{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:14px;
+    overflow:hidden;
+    opacity:0;
+    transform: translateY(60px);
+    transition: all 2s ease 1s;
+}
+
+/* Fondo dinámico */
+.background{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center;
+    filter:brightness(0.4) blur(3px);
+    animation: changeBg 14s infinite alternate;
+}
+
+@keyframes changeBg{
+    50%{ background-image:url('foto1.jpg');}
+    50%{ background-image:url('foto2.jpg');}
+}
+
+/* MENSAJE */
+.message{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    color:white;
+    text-align:center;
+    width:85%;
+    font-size:20px;
+    line-height:1.6;
+    opacity:0;
+    animation: fadeText 4s ease forwards 2.5s;
+    text-shadow:0 0 25px rgba(255,255,255,0.8);
+}
+
+@keyframes fadeText{
+    to{ opacity:1;}
+}
+
+/* ABIERTO */
+.envelope.open .flap{
+    transform: rotateX(-180deg);
+}
+
+.envelope.open .letter{
+    opacity:1;
+    transform: translateY(0);
+}
+
+/* PÉTALOS */
+.petal{
+    position:absolute;
+    top:-50px;
+    font-size:24px;
+    color:#ff2e63;
+    opacity:0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall{
+    0%{
+        transform: translateY(-50px) rotate(0deg);
+        opacity:0;
+    }
+    10%{opacity:1;}
+    100%{
+        transform: translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="scene" id="scene">
+    <div class="envelope" onclick="openLetter(this)">
+        <div class="base">
+            Para: El amor de mi vida 💖
+        </div>
+        <div class="flap"></div>
+
+        <div class="letter">
+            <div class="background"></div>
+            <div class="message">
+                Contigo la vida es siempre San Valentín, llena de amor, paz, ternura, risa y llena de colores.<br><br>
+                Te amo un mundo, mi vida.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openLetter(element){
+    element.classList.toggle("open");
+    document.getElementById("scene").classList.toggle("zoom");
+}
+
+/* Generar pétalos */
+for(let i=0;i<30;i++){
+    let petal=document.createElement("div");
+    petal.classList.add("petal");
+    petal.innerHTML="🌹";
+    petal.style.left=Math.random()*100+"vw";
+    petal.style.animationDuration=(Math.random()*6+8)+"s";
+    petal.style.fontSize=(Math.random()*15+20)+"px";
+    document.body.appendChild(petal);
+}
+</script>
+
+</body>
+</html>
